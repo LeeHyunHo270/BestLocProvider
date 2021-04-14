@@ -39,9 +39,9 @@ public class MyLocationActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 myLocField.setText(
-                        "Latitude: " +location.getLatitude()
-                +"\nLongtitude: " +location.getLongitude()
-                +"\nAltitude: " +location.getAltitude());
+                        "Latitude: " + location.getLatitude()
+                                + "\nLongtitude: " + location.getLongitude()
+                                + "\nAltitude: " + location.getAltitude());
 
             }
         };
@@ -55,22 +55,34 @@ public class MyLocationActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
 
             Toast.makeText(MyLocationActivity.this,
-                 "Firest enable LOCATION ACCESS in settings.", Toast.LENGTH_LONG).show();
+                    "Firest enable LOCATION ACCESS in settings.", Toast.LENGTH_LONG).show();
             return;
         }
         locmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
- //       locmanager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListener);
-  //      locmanager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, locListener);
+        //       locmanager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListener);
+        //      locmanager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, locListener);
     }
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        locmanager.removeUpdates(locListener);}
+        locmanager.removeUpdates(locListener);
+    }
 
-     @Override
-     protected  void onResume(){
-         super.onResume();
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locmanager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
         }
 
 }
